@@ -21,20 +21,18 @@ namespace CMP1903_A1_2324
                 Console.WriteLine("Playing Game");
             }
             Dice dice = new Dice(); //Creates a new dice object
-            int diceVal = 0;
-
-            for (int i = 0; i <= 2; i++) //Loops 3 times to roll the dice 3 times and add the number roll to the sum
-            {
-                diceVal = dice.Roll(); //Calls the roll die method on the dice objects and the returning integer is set as DieVal
-                _sum = _sum + diceVal;
-            }
+            Dice dice2 = new Dice();
+            Dice dice3 = new Dice();
+        
+            _sum = dice.Roll()+dice2.Roll()+dice3.Roll(); //Calls the roll method on the dice objects and the returning integer is added to the _sum
+            
             FinalSum = _sum;
             Console.WriteLine($"The sum of the three dice rolls is {_sum}");
             if (Test == false) //Checks if it is a test before asking to roll again
             {
                 while (RollAgain().ToUpper() == "Y") //If the response is Y, it rolls a dice
                 {
-                    FinalSum += dice.Roll();
+                    FinalSum += dice.Roll();//Calls the roll method
                     Console.WriteLine($"New sum = {FinalSum}"); //Shows the new total
                 }
             }
