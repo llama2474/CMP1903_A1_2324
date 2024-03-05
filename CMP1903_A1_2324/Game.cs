@@ -24,7 +24,7 @@ namespace CMP1903_A1_2324
             Dice dice2 = new Dice();
             Dice dice3 = new Dice();
         
-            _sum = dice.Roll()+dice2.Roll()+dice3.Roll(); //Calls the roll die method on the dice objects and the returning integer is added to the _sum
+            _sum = dice.Roll()+dice2.Roll()+dice3.Roll(); //Calls the roll method on the dice objects and the returning integer is added to the _sum
             
             FinalSum = _sum;
             Console.WriteLine($"The sum of the three dice rolls is {_sum}");
@@ -32,7 +32,7 @@ namespace CMP1903_A1_2324
             {
                 while (RollAgain().ToUpper() == "Y") //If the response is Y, it rolls a dice
                 {
-                    FinalSum += dice.Roll();
+                    FinalSum += dice.Roll();//Calls the roll method
                     Console.WriteLine($"New sum = {FinalSum}"); //Shows the new total
                 }
             }
