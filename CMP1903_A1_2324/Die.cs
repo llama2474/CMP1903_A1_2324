@@ -2,22 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CMP1903_A1_2324
 {
-    internal class Die
+    internal class Dice
     {
-        /*
-         * The Die class should contain one property to hold the current die value,
-         * and one method that rolls the die, returns and integer and takes no parameters.
-         */
-
-        //Property
-
-
-        //Method
-
-
+        public int FinalDie //Public variable encapsulates _diceVal
+        {
+            get { return _diceVal; }
+            set { _diceVal = value; }
+        }
+        private int _diceVal = 0;
+        
+        public int Roll()
+        {
+            Thread.Sleep(1); //Pauses To Randomize the dice rolls
+            Random random = new Random(); //Creates a new Random object
+            _diceVal = random.Next(1,7); //Generates a random number between 1 and6
+            return _diceVal;
+        }
     }
 }
