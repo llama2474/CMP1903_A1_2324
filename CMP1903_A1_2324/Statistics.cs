@@ -35,6 +35,10 @@ namespace CMP1903_A1_2324
             Console.WriteLine($"Number of Bot wins = {BotWins}");
             Console.WriteLine($"Number of Draws = {Draw}");
             Console.WriteLine($"Number of games played = {Player1Wins+Player2Wins+Draw}");
+            Console.WriteLine("\nPress any key to return to the menu");
+            Console.ReadKey();
+            Game game = new Game();
+            game.Play();
         }
     }
 }

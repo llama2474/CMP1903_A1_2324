@@ -7,43 +7,52 @@ using System.Threading.Tasks;
 
 namespace CMP1903_A1_2324
 {
-    internal class Game
+    internal class Game:Dice
     {
         public void Play() //Handles the user input and runs the chosen game
         {
             
-            Console.WriteLine("1.Sevens Out\n2.Three or More\n3.Testing"); //Asks the player to choose a game
+            Console.WriteLine("1.Sevens Out\n2.Three or More\n3.Testing\n4.Statistics"); //Asks the player to choose a game
             Console.WriteLine("Press 1 to play sevens out, press 2 to play three or more, press 3 to run tests");
             string input = Console.ReadLine();
-            while (input !="1" &&  input !="2" && input !="3") //Checks for a correct input
+            while (input !="1" &&  input !="2" && input !="3" && input !="4") //Checks for a correct input
             {
                 Console.WriteLine("Invalid Input, try again");
                 Console.WriteLine("Press 1 to play sevens out, press 2 to play three or more");
                 input = Console.ReadLine();
             }
-            Console.WriteLine("1.1Player\n2.2Player"); //Asks the player if they want to play 2 player or one player
-            Console.WriteLine("Press 1 to play 1 player, press 2 to play 2 player");
-            string input2= Console.ReadLine();
-            while(input2 !="1" && input2 !="2") //checks for a correct input
+            if (input != "3"&& input !="4")
             {
-                Console.WriteLine("Invalid Input, try again");
+                Console.WriteLine("1.1Player\n2.2Player"); //Asks the player if they want to play 2 player or one player
                 Console.WriteLine("Press 1 to play 1 player, press 2 to play 2 player");
-                input2 = Console.ReadLine();
-            }
-            if (input =="1")
+                string input2 = Console.ReadLine();
+                while (input2 != "1" && input2 != "2") //checks for a correct input
+                {
+                    Console.WriteLine("Invalid Input, try again");
+                    Console.WriteLine("Press 1 to play 1 player, press 2 to play 2 player");
+                    input2 = Console.ReadLine();
+                }
+                if (input == "1")
 
-            {
-                SevenOut sevenOut = new SevenOut();
-                sevenOut.Play(input2);
+                {
+                    SevenOut sevenOut = new SevenOut();
+                    sevenOut.Play(input2);
+                }
+                else if (input == "2")
+                {
+                    ThreeOrMore threeOrMore = new ThreeOrMore();
+                    threeOrMore.Play(input2);
+                }
+
             }
-            else if (input =="2")
-            { 
-                ThreeOrMore threeOrMore = new ThreeOrMore();
-                threeOrMore.Play(input2);
-            }
-            else
+
+            if (input =="3")
             {
                 Testing.TestGame();
+            }
+            else if(input =="4")
+            {
+                Statistics.DisplayStatistics();
             }
             
         }
@@ -64,8 +73,8 @@ namespace CMP1903_A1_2324
             private int _sum2 = 0;
             public void Play(string input) //Runs the seven out game
             {
-                Dice dice1 = new Dice();
-                Dice dice2 = new Dice();
+                Game game1 = new Game();
+                Game game2 = new Game();
                 if (input!="3")
                 {
                     Roll(1, false); //Calls the roll method
@@ -73,12 +82,12 @@ namespace CMP1903_A1_2324
                
                 if (input =="1") //Runs the game in one player mode
                 {
-                    while ((dice1.FinalDie+dice2.FinalDie)!=7) //Rolls 2 dice until the sum is 7
+                    while ((game1.FinalDie+game2.FinalDie)!=7) //Rolls 2 dice until the sum is 7
                     {
-                        _sum2 += dice1.Roll() + dice2.Roll(); //Adds the 2 rolls to the total
-                        if (dice1.FinalDie==dice2.FinalDie) //Adds the 2 rolls again if its a double
+                        _sum2 += game1.Roll() + game2.Roll(); //Adds the 2 rolls to the total
+                        if (game1.FinalDie==game2.FinalDie) //Adds the 2 rolls again if its a double
                         {
-                            _sum2 += dice1.FinalDie + dice2.FinalDie;
+                            _sum2 += game1.FinalDie + game2.FinalDie;
                         }
                     }
                     Console.WriteLine($"The bot got a final total of {FinalSum2}");
@@ -137,39 +146,39 @@ namespace CMP1903_A1_2324
             private void Roll(int Player, bool Test) //Handles the rolling of the two dice
             {
                 Console.WriteLine($"Player {Player}'s turn");
-                Dice dice1 = new Dice();
-                Dice dice2 = new Dice();
+                Game game1 = new Game();
+                Game game2 = new Game();
                 int TempSum = 0;
-                while ((dice1.FinalDie + dice2.FinalDie) != 7) //Keeps rolling until the sum of the two dice is a 7
+                while ((game1.FinalDie + game2.FinalDie) != 7) //Keeps rolling until the sum of the two dice is a 7
                 {
                     Console.WriteLine("Press any key to roll");
                     Console.ReadKey();
                     Console.WriteLine();
                     if (Player ==1) //If its player 1
                     {
-                        TempSum = dice1.Roll() + dice2.Roll();
+                        TempSum = game1.Roll() + game2.Roll();
                         _sum1 += TempSum;
                         if (Test==true)
                         {
-                            Testing.TestSum(dice1.FinalDie, dice2.FinalDie,TempSum); //Values are passed to the test class
+                            Testing.TestSum(game1.FinalDie, game2.FinalDie,TempSum); //Values are passed to the test class
                         }
                     }
                     else if (Player ==2) //If its player 2
                     {
-                        _sum2 += dice1.Roll() + dice2.Roll();
+                        _sum2 += game1.Roll() + game2.Roll();
                     }
-                    Console.WriteLine($"You rolled a {dice1.FinalDie}");
-                    Console.WriteLine($"You rolled a {dice2.FinalDie}");
+                    Console.WriteLine($"You rolled a {game1.FinalDie}");
+                    Console.WriteLine($"You rolled a {game2.FinalDie}");
                     Console.WriteLine();
-                    if (dice1.FinalDie == dice2.FinalDie) //If a double is rolled, the total is added again
+                    if (game1.FinalDie == game2.FinalDie) //If a double is rolled, the total is added again
                     {
                         if (Player ==1)
                         {
-                            _sum1 += dice1.FinalDie + dice2.FinalDie;
+                            _sum1 += game1.FinalDie + game2.FinalDie;
                         }
                         else
                         {
-                            _sum2 += dice1.FinalDie + dice2.FinalDie;
+                            _sum2 += game1.FinalDie + game2.FinalDie;
                         }
                     }
                 }
@@ -262,7 +271,7 @@ namespace CMP1903_A1_2324
 
             private void Roll(int Player)
             {
-                Dice dice = new Dice();
+                Game game = new Game();
 
                 List<int> ListOfDice = new List<int>();
                 List<int> MainCounter = new List<int>();
@@ -271,8 +280,8 @@ namespace CMP1903_A1_2324
                     Console.WriteLine("Press any key to roll");
                     Console.ReadKey();
                     Console.WriteLine();
-                    ListOfDice.Add(dice.Roll());
-                    Console.WriteLine($"You Rolled a {dice.FinalDie}");
+                    ListOfDice.Add(game.Roll());
+                    Console.WriteLine($"You Rolled a {game.FinalDie}");
                 }
 
                 if (DiceChecker(ListOfDice.ToArray(), MainCounter) == true) //Checks if you can reroll
@@ -298,7 +307,7 @@ namespace CMP1903_A1_2324
 
             private void BotRoll()
             {
-                Dice dice = new Dice();
+                Game game = new Game();
 
                 List<int> ListOfDice = new List<int>();
                 List<int> MainCounter = new List<int>();
@@ -306,8 +315,8 @@ namespace CMP1903_A1_2324
                 for (int i = 0;i<5;i++) //Rolls 5 dice
                 {
                     Thread.Sleep(1);
-                    ListOfDice.Add(dice.Roll());
-                    Console.WriteLine($"The bot rolled a {dice.FinalDie}");
+                    ListOfDice.Add(game.Roll());
+                    Console.WriteLine($"The bot rolled a {game.FinalDie}");
                 }
                 int[] DiceList=ListOfDice.ToArray();
                 if (DiceChecker(ListOfDice.ToArray(), MainCounter) == true) //If the bot can reroll, it will reroll only the remaining dice as this is the best option
@@ -316,7 +325,7 @@ namespace CMP1903_A1_2324
                     {
                         if (MainCounter[i] == 1) //If the dice only appears once, it will be rerolled
                         {
-                            DiceList[i] = dice.Roll(); //rerolls the dice
+                            DiceList[i] = game.Roll(); //rerolls the dice
                         }
                     }
                     foreach (int i in DiceList) //Prints the bots new rolls
@@ -379,14 +388,14 @@ namespace CMP1903_A1_2324
                 if (input =="1") //Rerolls all the dice
                 {
                     Console.WriteLine("ReRolling all dice\n");
-                    Dice dice = new Dice();
+                    Game game =new Game();
                     for (int i = 0; i < 5; i++)
                     {
                         Console.WriteLine("Press any key to roll");
                         Console.ReadKey();
                         Console.WriteLine();
-                        DiceList[i] = dice.Roll();
-                        Console.WriteLine($"You Rolled a {dice.FinalDie}");
+                        DiceList[i] = game.Roll();
+                        Console.WriteLine($"You Rolled a {game.FinalDie}");
                     }
                 }
                 else //Rerolls the remaining dice
@@ -399,9 +408,9 @@ namespace CMP1903_A1_2324
                             Console.WriteLine("Press any key to roll");
                             Console.ReadKey();
                             Console.WriteLine();
-                            Dice dice = new Dice();
-                            DiceList[i] = dice.Roll();
-                            Console.WriteLine($"You Rolled a {dice.FinalDie}");
+                            Game game = new Game();
+                            DiceList[i] = game.Roll();
+                            Console.WriteLine($"You Rolled a {game.FinalDie}");
                         }
                     }
                 }
